@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Riak 2.0. Que reste-t'il aux autres ?</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Rémi Alvado">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Custom styles -->
+		<link rel="stylesheet" href="css/custom.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section id="introduction">
+					<h3>Riak 2.0</h3>
+					<h1>Que reste-t'il aux autres ?</h1>
+					<p>
+						<small><a href="mailto:remi.alvado@gmail.com">Rémi Alvado</a> / <a href="http://twitter.com/remialvado">@remialvado</a> / <a href="http://www.shoppingadventure.fr/">Shopping Adventure</a></small>
+					</p>
+				</section>
+
+				<section id="rappels" data-auto-start="2500">
+					<h3>Quelques rappels sur Riak 1.x</h3>
+					<ul>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-1="add-class(visible)">Sharding automatique</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-2="add-class(visible)">Réplication</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-3="add-class(visible)">Masterless</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-4="add-class(visible)">Schemaless</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-5="add-class(visible)">Stockage, Recherche et Map/Reduce</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-6="add-class(visible)">Eventually consistent</li>
+                        <li class="fragment" data-fragment-6="add-class(visible)">Résolution de conflit par Vector Clock</li>
+					</ul>
+				</section>
+
+				<section id="changes-1" data-auto-start="2500">
+					<h2>On perd quoi ?</h2>
+					<div class="fragment" data-next-fragment="1000" data-fragment-1="add-class(visible)">RIEN</div>
+                    <div class="fragment" data-fragment-2="add-class(visible)">On ne fait que gagner de nouvelles fonctionnalités :)</div>
+				</section>
+
+                <section id="strong-consistency" data-auto-start="2500">
+                    <h2>Storage - Consistency Mode</h2>
+                    <ul>
+                        <li class="fragment" data-next-fragment="5000"  data-fragment-1="add-class(visible)">Objectif : Choisir la meilleure stratégie pour les écritures</li>
+                        <li class="fragment" data-next-fragment="2000"  data-fragment-2="add-class(visible)">Modes : Eventually et Strong</li>
+                        <li class="fragment" data-next-fragment="10000" data-fragment-3="add-class(visible)">Eventually : Nombre ou liste de followers, panier, blog post, stockage de log, ...</li>
+                        <li class="fragment" data-fragment-4="add-class(visible)">Strong : Systèmes Temps Réel, transaction financière, ...</li>
+                    </ul>
+                </section>
+
+                <section id="data-types" data-auto-start="2500">
+                    <h2>Storage - Data Types</h2>
+                    <ul>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-1="add-class(visible)">Objectif : gestion automatique des conflits</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-2="add-class(visible)">Basé sur les CRDT développé par l'INRIA</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-3="add-class(visible)">Types : counter, set, map, string et boolean</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-4="add-class(visible)">Exemples Fonctionnels : un compteur de pages vues, un panier, une liste de followers, ...</li>
+                        <li class="fragment" data-fragment-5="add-class(visible)">Exemples Techniques : un auto-increment distribué, un Merkle Tree, ...</li>
+                    </ul>
+                </section>
+
+                <section id="bucket-types" data-auto-start="2500">
+                    <h2>Storage - Bucket Types</h2>
+                    <ul>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-1="add-class(visible)">Objectifs : partager des attributs entre les buckets</li>
+                        <li class="fragment" data-next-fragment="3000" data-fragment-2="add-class(visible)">Basé sur les meta-propriétés des Buckets</li>
+                        <li class="fragment" data-next-fragment="3000" data-fragment-3="add-class(visible)">Surchargeable pour chaque bucket</li>
+                        <li class="fragment" data-fragment-4="add-class(visible)">Utile pour la gestion de la sécurité et le mode d'écriture</li>
+                    </ul>
+                </section>
+
+                <section id="storage-technical" data-auto-start="2500">
+                    <h2>Storage - Technical Changes</h2>
+                    <ul>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-1="add-class(visible)">LevelDB : gros changements dans la gestion de la mémoire</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-2="add-class(visible)">Réplication Multi Datacenter</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-3="add-class(visible)">Résolution des conflits côté applicatif</li>
+                        <li class="fragment" data-fragment-4="add-class(visible)">Améliorations dans le compactage des données</li>
+                    </ul>
+                </section>
+
+                <section id="solr" data-auto-start="2500">
+                    <h2>Search - Solr</h2>
+                    <ul>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-1="add-class(visible)">Objectif : améliorer la couverture fonctionnelle du Search</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-2="add-class(visible)">Riak 2 embarque un cluster Solr 4 auto-géré</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-3="add-class(visible)">100% compatible avec l'API Solr</li>
+                        <li class="fragment" data-fragment-4="add-class(visible)">Mapping automatique entre les KV et les index</li>
+                    </ul>
+                </section>
+
+                <section id="security" data-auto-start="2500">
+                    <h2>Search - Security</h2>
+                    <ul>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-1="add-class(visible)">Objectifs : Limiter l'accès aux données et leur modification</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-2="add-class(visible)">Authentication : Anonymous, Password, PAM et Active Directory</li>
+                        <li class="fragment" data-next-fragment="500"  data-fragment-3="add-class(visible)">Authorization : ACL</li>
+                        <li class="fragment" data-fragment-4="add-class(visible)">Exemple :
+                            <pre><code class="bash">
+riak-admin security grant riak_kv.get ON eggbasket_* to victor
+riak-admin security grant riak_kv.put ON eggbasket_* to luc
+                            </code></pre>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="others" data-auto-start="2500">
+                    <h2>Autres</h2>
+                    <ul>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-1="add-class(visible)">Configuration normalisée</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-2="add-class(visible)">Accès à Riak en Elixir</li>
+                        <li class="fragment" data-fragment-3="add-class(visible)">Généralisation du Protocol Buffer</li>
+                    </ul>
+                </section>
+
+                <section id="riak-cs" data-auto-start="2500">
+                    <h2>Riak Cloud Storage</h2>
+                    <ul>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-1="add-class(visible)">Dédié au stockage d'objets volumineux</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-2="add-class(visible)">Découpage des objets avant dispersion</li>
+                        <li class="fragment" data-next-fragment="5000" data-fragment-3="add-class(visible)">API compatible S3</li>
+                        <li class="fragment" data-fragment-4="add-class(visible)">Compatible Open Stack et Cloud Stack</li>
+                    </ul>
+                </section>
+
+				<section id="questions" class="text">
+					<h2>Questions ?</h2>
+				</section>
+			</div>
+		</div>
+		<a href="https://github.com/remialvado/pres-humantalks-continuous-deployment"><img style="position: absolute; top: 0; right: 0; border: 0;" src="images/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script src="js/jquery-1.5.0.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+			Reveal.addEventListener('slidechanged', function(ev) {
+				var autoStart = ev.currentSlide.getAttribute("data-auto-start");
+				if (autoStart) {
+					setTimeout(Reveal.nextFragment, autoStart);
+				}
+			});
+
+			Reveal.addEventListener('fragmentshown', function(ev) {
+				var current = ev.fragment;
+
+				// activate next fragment automatically
+				var autoFragment = current.getAttribute("data-next-fragment");
+				if (autoFragment) {
+					setTimeout(Reveal.nextFragment, autoFragment);
+				}
+				
+				// Duplicate fragment into anothe node
+				var previousReplicate = current;
+				var nextReplicate = document.querySelector(previousReplicate.getAttribute("data-replicate-on"));
+				if (nextReplicate) {
+					var timeout = previousReplicate.getAttribute("data-replicate-in") || 0;
+					replicate = function() {
+						nextReplicate.className = previousReplicate.className;
+						previousReplicate = nextReplicate;
+						nextReplicate = document.querySelector(previousReplicate.getAttribute("data-replicate-on"));
+						if (nextReplicate) {
+							timeout = previousReplicate.getAttribute("data-replicate-in") || 0;
+							setTimeout(replicate, timeout);
+						}
+					}
+					setTimeout(replicate, timeout);
+				}
+
+				// send custom event
+				var customEvent = current.getAttribute("data-fragment-custom-event");
+				if (customEvent) {
+					Reveal.dispatchEvent(customEvent, { fragment: current });	
+				}
+			});
+
+			Reveal.addEventListener('fragmenthidden', function(ev) {
+				var current = ev.fragment;
+
+				// activate previous fragment automatically
+				var autoFragment = current.getAttribute("data-next-fragment");
+				if (autoFragment) {
+					setTimeout(Reveal.previousFragment, autoFragment);
+				}
+			});
+		   
+		</script>
+
+	</body>
+</html>
